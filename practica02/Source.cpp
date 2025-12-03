@@ -1,7 +1,28 @@
 #include <iostream>
 using namespace std;
 
-class Animal
+struct IAnimal
+{
+	virtual void Eat() = 0;
+	virtual void Move() = 0;
+};
+
+struct IFly
+{
+	virtual void Fly() = 0;
+};
+
+struct ISwim
+{
+	virtual void Swim() = 0;
+};
+
+struct ICreep
+{
+	virtual void ICreep() = 0;
+};
+
+class Animal : public IAnimal
 {
 protected:
 	double weight;
@@ -40,8 +61,6 @@ public:
 		cout << "Age: " << age << endl;
 		cout << "Main land: " << mainLand << endl;
 	}
-	virtual void Eat() = 0;
-	virtual void Move() = 0;
 };
 
 class Herbivores :public Animal
@@ -70,8 +89,6 @@ public:
 		cout << "Which plants it eats: " << whichPlantAreEat << endl;
 		cout << "How much it eat: " << howMuchEat << endl;
 	}
-	virtual void Eat() = 0;
-	virtual void Move() = 0;
 };
 
 class Elephant :public Herbivores
@@ -199,9 +216,6 @@ public:
 		cout << "Which animals it eats: " << whoAreEat << endl;
 		cout << "Bite of the force: " << biteForce << endl;
 	}
-	virtual void Eat() = 0;
-	virtual void Move() = 0;
-	virtual void Fly() = 0;
 };
 
 class Wolf :public Ñarnivores
@@ -234,10 +248,6 @@ public:
 	void Move()
 	{
 		cout << "Wolf is starting to run" << endl;
-	}
-	void Fly()
-	{
-		cout << "Wolf cant fly" << endl;
 	}
 };
 
@@ -272,10 +282,6 @@ public:
 	{
 		cout << "Eagle cant move" << endl;
 	}
-	void Fly()
-	{
-		cout << "Eagle flies" << endl;
-	}
 };
 
 class Shark :public Ñarnivores
@@ -309,9 +315,38 @@ public:
 	{
 		cout << "Shark quickly swims" << endl;
 	}
-	void Fly()
+};
+
+class Snake :public Ñarnivores
+{
+	string color;
+public:
+	Shark() {}
+	Shark(double w, double l, int p, int a, string m, string wAE, double bF, string c)
+		:Ñarnivores(w, l, p, a, m, wAE, bF)
 	{
-		cout << "Shark cant fly" << endl;
+		color = c;
+	}
+	void Init()
+	{
+		Ñarnivores::Init();
+		cout << "Enter the color: ";
+		cin >> color;
+	}
+	void Print()
+	{
+		cout << "-------Snake-------" << endl;
+		Ñarnivores::Print();
+		cout << "Color: " << color << endl;
+		cout << "-------------------" << endl;
+	}
+	void Eat()
+	{
+		cout << "Snake eats rodents" << endl;
+	}
+	void Move()
+	{
+		cout << "Snake cant move" << endl;
 	}
 };
 
@@ -365,7 +400,6 @@ int main()
 		ptr2->Init();
 		ptr2->Print();
 		ptr2->Eat();
-		ptr2->Fly();
 		break;
 	case 6:
 		ptr2 = new Shark;
