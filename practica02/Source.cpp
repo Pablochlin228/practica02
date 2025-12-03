@@ -5,6 +5,8 @@ struct IAnimal
 {
 	virtual void Eat() = 0;
 	virtual void Move() = 0;
+	virtual void Init() = 0;
+	virtual void Print() = 0;
 };
 
 struct IFly
@@ -19,7 +21,7 @@ struct ISwim
 
 struct ICreep
 {
-	virtual void ICreep() = 0;
+	virtual void Creep() = 0;
 };
 
 class Animal : public IAnimal
@@ -251,7 +253,7 @@ public:
 	}
 };
 
-class Eagle :public Ñarnivores
+class Eagle :public Ñarnivores,public IFly
 {
 	double wingspan;
 public:
@@ -282,9 +284,13 @@ public:
 	{
 		cout << "Eagle cant move" << endl;
 	}
+	void Fly()
+	{
+		cout << "Eagle flies" << endl;
+	}
 };
 
-class Shark :public Ñarnivores
+class Shark :public Ñarnivores,public ISwim
 {
 	string color;
 public:
@@ -313,16 +319,20 @@ public:
 	}
 	void Move()
 	{
+		cout << "Shark cant move" << endl;
+	}
+	void Swim()
+	{
 		cout << "Shark quickly swims" << endl;
 	}
 };
 
-class Snake :public Ñarnivores
+class Snake :public Ñarnivores,public ICreep
 {
 	string color;
 public:
-	Shark() {}
-	Shark(double w, double l, int p, int a, string m, string wAE, double bF, string c)
+	Snake() {}
+	Snake(double w, double l, int p, int a, string m, string wAE, double bF, string c)
 		:Ñarnivores(w, l, p, a, m, wAE, bF)
 	{
 		color = c;
@@ -348,12 +358,19 @@ public:
 	{
 		cout << "Snake cant move" << endl;
 	}
+	void Creep()
+	{
+		cout << "Snake quickly creeps" << endl;
+	}
 };
 
 int main()
 {
-	Herbivores* ptr = nullptr;
-	Ñarnivores* ptr2 = nullptr;
+	IAnimal* ptr = nullptr;
+
+	/*Herbivores* ptr = nullptr;
+	Ñarnivores* ptr2 = nullptr;*/
+
 
 	int choice = 0;
 	cout << "1)Enter information about elephant" << endl;
@@ -362,6 +379,7 @@ int main()
 	cout << "4)Enter information about wolf" << endl;
 	cout << "5)Enter information about eagle" << endl;
 	cout << "6)Enter information about shark" << endl;
+	cout << "7)Enter information about snake" << endl;
 	cout << "Your choice: ";
 	cin >> choice;
 
@@ -389,30 +407,46 @@ int main()
 		ptr->Move();
 		break;
 	case 4:
-		ptr2 = new Wolf;
-		ptr2->Init();
-		ptr2->Print();
-		ptr2->Eat();
-		ptr2->Move();
+		ptr = new Wolf;
+		ptr->Init();
+		ptr->Print();
+		ptr->Eat();
+		ptr->Move();
 		break;
-	case 5:
-		ptr2 = new Eagle;
-		ptr2->Init();
-		ptr2->Print();
-		ptr2->Eat();
+	case 5: {
+		ptr = new Eagle;
+		ptr->Init();
+		ptr->Print();
+		ptr->Eat();
+		ptr->Move();
+		Eagle* eagle = (Eagle*)ptr;
+		eagle->Fly();
 		break;
-	case 6:
-		ptr2 = new Shark;
-		ptr2->Init();
-		ptr2->Print();
-		ptr2->Eat();
-		ptr2->Move();
+	}
+	case 6: {
+		ptr = new Shark;
+		ptr->Init();
+		ptr->Print();
+		ptr->Eat();
+		ptr->Move();
+		Shark* shark = (Shark*)ptr;
+		shark->Swim();
 		break;
+	}
+	case 7: {
+		ptr = new Snake;
+		ptr->Init();
+		ptr->Print();
+		ptr->Eat();
+		ptr->Move();
+		Snake* snake = (Snake*)ptr;
+		snake->Creep();
+		break;
+	}
 	default:
 		cout << "Incorrect operation!" << endl;
 		break;
 	}
 
 	delete ptr;
-	delete ptr2;
 }
